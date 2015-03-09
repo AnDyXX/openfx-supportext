@@ -210,9 +210,9 @@ ofxsUnPremult(const PIX *srcPix,
     const float fltmin = std::numeric_limits<float>::min();
     PIX alpha = srcPix[3];
     if ( alpha > (PIX)(fltmin * maxValue) ) {
-		unpPix[0] = (float)srcPix[0] / (float)alpha;
-		unpPix[1] = (float)srcPix[1] / (float)alpha;
-		unpPix[2] = (float)srcPix[2] / (float)alpha;
+        unpPix[0] = srcPix[0] / (float)alpha;
+        unpPix[1] = srcPix[1] / (float)alpha;
+        unpPix[2] = srcPix[2] / (float)alpha;
     } else {
 		unpPix[0] = (float)srcPix[0] / (float)maxValue;
 		unpPix[1] = (float)srcPix[1] / (float)maxValue;
@@ -221,6 +221,7 @@ ofxsUnPremult(const PIX *srcPix,
 	unpPix[3] = (float)srcPix[3] / (float)maxValue;
 }
 
+// unpPix is in [0, 1]
 // premultiply and denormalize in [0, maxValue]
 // if premult is false, just denormalize
 template <class PIX, int nComponents, int maxValue>
@@ -263,11 +264,12 @@ ofxsMaskMixPix(const float *tmpPix, //!< interpolated pixel
                int y,
                const PIX *srcPix, //!< the background image (the output is srcImg where maskImg=0, else it is tmpPix)
                bool domask, //!< apply the mask?
-               const OFX::Image *maskImg, //!< the mask image (ignored if masked=false or domask=false)
+               const OFX::Image *maskImg, //!< the mask image (ignored if masked=false or domask=false), which must be Alpha
                float mix, //!< mix factor between the output and bkImg
                bool maskInvert, //<! invert mask behavior
                PIX *dstPix) //!< destination pixel
 {
+    assert(!domask || !maskImg || maskImg->getPixelComponents() == ePixelComponentAlpha);
     const PIX *maskPix = NULL;
     float maskScale = 1.f;
 
@@ -341,10 +343,14 @@ ofxsPremultMaskMixPix(const float unpPix[4], //!< interpolated unpremultiplied p
                       bool maskInvert, //<! invert mask behavior
                       PIX *dstPix) //!< destination pixel
 {
+    assert(!domask || !maskImg || maskImg->getPixelComponents() == ePixelComponentAlpha);
     float tmpPix[nComponents];
 
+    // unpPix is in [0..1]
     ofxsPremult<PIX, nComponents, maxValue>(unpPix, tmpPix, premult, premultChannel);
-	ofxsMaskMixPix<PIX, nComponents, maxValue, masked>(tmpPix, x, y, srcPix, domask, maskImg, mix, maskInvert, dstPix);
+
+    // tmpPix is in [0..maxValue]
+    ofxsMaskMixPix<PIX, nComponents, maxValue, masked>(tmpPix, x, y, srcPix, domask, maskImg, mix, maskInvert, dstPix);
 }
 
 // tmpPix is not normalized, it is within [0,maxValue]
@@ -360,6 +366,7 @@ ofxsMaskMix(const float *tmpPix, //!< interpolated pixel
             bool maskInvert, //<! invert mask behavior
             PIX *dstPix) //!< destination pixel
 {
+    assert(!domask || !maskImg || maskImg->getPixelComponents() == ePixelComponentAlpha);
     const PIX *srcPix = NULL;
 
     // are we doing masking/mixing? in this case, retrieve srcPix
