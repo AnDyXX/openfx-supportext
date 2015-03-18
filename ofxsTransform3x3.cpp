@@ -152,7 +152,7 @@ Transform3x3Plugin::Transform3x3Plugin(OfxImageEffectHandle handle,
     // name of mask clip depends on the context
     if (masked) {
         _maskClip = getContext() == OFX::eContextFilter ? NULL : fetchClip(getContext() == OFX::eContextPaint ? "Brush" : "Mask");
-        assert(!_maskClip || _maskClip->getPixelComponents() == ePixelComponentAlpha);
+		assert(!_maskClip || _maskClip->getPixelComponents() == ePixelComponentAlpha || _maskClip->getPixelComponents() == ePixelComponentRGBA);
     }
 
     if (paramExists(kParamTransform3x3Invert)) {
