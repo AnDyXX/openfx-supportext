@@ -168,8 +168,10 @@ OFX::genericTrackerDescribe(OFX::ImageEffectDescriptor &desc)
 {
     desc.addSupportedContext(eContextGeneral);
     desc.addSupportedContext(eContextFilter);
+#ifdef OFX_EXTENSIONS_NATRON
     desc.addSupportedContext(eContextTracker);
-    // supported bit depths depend on the tracking algorithm.
+#endif
+	// supported bit depths depend on the tracking algorithm.
     //desc.addSupportedBitDepth(eBitDepthUByte);
     //desc.addSupportedBitDepth(eBitDepthUShort);
     //desc.addSupportedBitDepth(eBitDepthFloat);
@@ -247,7 +249,9 @@ OFX::genericTrackerDescribePointParameters(OFX::ImageEffectDescriptor &desc,
         param->setLabel(kParamTrackingLabelLabel);
         param->setHint(kParamTrackingLabelHint);
         param->setDefault(kParamTrackingLabelDefault);
+#ifdef OFX_EXTENSIONS_NATRON
         param->setInstanceSpecific(true);
+#endif
         ////param->setIsSecret(false); // it has to be user-editable
         ////param->setEnabled(true); // it has to be user-editable
         ////param->setIsPersistant(true); // it has to be saved with the instance parameters
@@ -262,7 +266,9 @@ OFX::genericTrackerDescribePointParameters(OFX::ImageEffectDescriptor &desc,
         OFX::Double2DParamDescriptor* param = desc.defineDouble2DParam(kParamTrackingCenterPoint);
         param->setLabel(kParamTrackingCenterPointLabel);
         param->setHint(kParamTrackingCenterPointHint);
+#ifdef OFX_EXTENSIONS_NATRON
         param->setInstanceSpecific(true);
+#endif
         param->setDoubleType(eDoubleTypeXYAbsolute);
         param->setDefaultCoordinateSystem(eCoordinatesNormalised);
         param->setDefault(0.5, 0.5);
@@ -279,7 +285,9 @@ OFX::genericTrackerDescribePointParameters(OFX::ImageEffectDescriptor &desc,
         OFX::Double2DParamDescriptor* param = desc.defineDouble2DParam(kParamTrackingOffset);
         param->setLabel(kParamTrackingOffsetLabel);
         param->setHint(kParamTrackingOffsetHint);
+#ifdef OFX_EXTENSIONS_NATRON
         param->setInstanceSpecific(true);
+#endif
         param->setDoubleType(eDoubleTypeXYAbsolute);
         param->setDefaultCoordinateSystem(eCoordinatesCanonical);
         param->setDefault(0, 0);
