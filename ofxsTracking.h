@@ -106,20 +106,20 @@ public:
     /**
      * @brief Nothing to do since we're identity. The host should always render the image of the input.
      **/
-    virtual void render(const OFX::RenderArguments & /*args*/) OVERRIDE FINAL
+    virtual void render(const OFX::RenderArguments & /*args*/) OVERRIDE
     {
     }
     
     /**
      * @brief Returns true always at the same time and for the source clip.
      **/
-    virtual bool isIdentity(const OFX::IsIdentityArguments &args, OFX::Clip * &identityClip, double &identityTime) OVERRIDE FINAL;
+    virtual bool isIdentity(const OFX::IsIdentityArguments &args, OFX::Clip * &identityClip, double &identityTime) OVERRIDE;
     
     /**
      * @brief Handles the push buttons actions.
      **/
-    virtual void changedParam(const OFX::InstanceChangedArgs &args, const std::string &paramName) OVERRIDE FINAL;
-    virtual bool getRegionOfDefinition(const OFX::RegionOfDefinitionArguments &args, OfxRectD &rod) OVERRIDE FINAL;
+    virtual void changedParam(const OFX::InstanceChangedArgs &args, const std::string &paramName) OVERRIDE;
+    virtual bool getRegionOfDefinition(const OFX::RegionOfDefinitionArguments &args, OfxRectD &rod) OVERRIDE;
     
 protected:
     
@@ -134,12 +134,7 @@ protected:
     // do not need to delete these, the ImageEffect is managing them for us
     OFX::Clip *_dstClip;
     OFX::Clip *_srcClip;
-    OFX::Double2DParam* _center;
-    OFX::Double2DParam* _offset;
-    OFX::Double2DParam* _innerBtmLeft;
-    OFX::Double2DParam* _innerTopRight;
-    OFX::Double2DParam* _outerBtmLeft;
-    OFX::Double2DParam* _outerTopRight;
+    
     OFX::PushButtonParam* _backwardButton;
     OFX::PushButtonParam* _prevButton;
     OFX::PushButtonParam* _nextButton;

@@ -60,12 +60,6 @@ GenericTrackerPlugin::GenericTrackerPlugin(OfxImageEffectHandle handle)
 : ImageEffect(handle)
 , _dstClip(0)
 , _srcClip(0)
-, _center(0)
-, _offset(0)
-, _innerBtmLeft(0)
-, _innerTopRight(0)
-, _outerBtmLeft(0)
-, _outerTopRight(0)
 , _backwardButton(0)
 , _prevButton(0)
 , _nextButton(0)
@@ -78,18 +72,12 @@ GenericTrackerPlugin::GenericTrackerPlugin(OfxImageEffectHandle handle)
     assert(_srcClip->getPixelComponents() == ePixelComponentAlpha || _srcClip->getPixelComponents() == ePixelComponentRGB || _srcClip->getPixelComponents() == ePixelComponentRGBA);
     
     
-    _center = fetchDouble2DParam(kParamTrackingCenterPoint);
-    _offset = fetchDouble2DParam(kParamTrackingOffset);
-    _innerBtmLeft = fetchDouble2DParam(kParamTrackingPatternBoxBtmLeft);
-    _innerTopRight = fetchDouble2DParam(kParamTrackingPatternBoxTopRight);
-    _outerBtmLeft = fetchDouble2DParam(kParamTrackingSearchBoxBtmLeft);
-    _outerTopRight = fetchDouble2DParam(kParamTrackingSearchBoxTopRight);
     _backwardButton = fetchPushButtonParam(kParamTrackingBackward);
     _prevButton = fetchPushButtonParam(kParamTrackingPrevious);
     _nextButton = fetchPushButtonParam(kParamTrackingNext);
     _forwardButton = fetchPushButtonParam(kParamTrackingForward);
     _instanceName = fetchStringParam(kNatronOfxParamStringSublabelName);
-    assert(_center && _offset &&  _innerTopRight && _innerBtmLeft && _outerTopRight && _outerBtmLeft && _backwardButton && _prevButton && _nextButton && _forwardButton && _instanceName);
+    assert(_backwardButton && _prevButton && _nextButton && _forwardButton && _instanceName);
 }
 
 bool
@@ -261,6 +249,7 @@ OFX::genericTrackerDescribePointParameters(OFX::ImageEffectDescriptor &desc,
         }
     }
     
+<<<<<<< HEAD
     // center
     {
         OFX::Double2DParamDescriptor* param = desc.defineDouble2DParam(kParamTrackingCenterPoint);
@@ -369,6 +358,8 @@ OFX::genericTrackerDescribePointParameters(OFX::ImageEffectDescriptor &desc,
             page->addChild(*param);
         }
     }
+=======
+>>>>>>> c9b82b9d2112df677c51a8276b79e538c3eaac57
     
     // backward
     {
