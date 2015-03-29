@@ -1160,6 +1160,8 @@ OFX::Transform3x3Describe(OFX::ImageEffectDescriptor &desc,
             //std::cout << "kFnOfxImageEffectCanTransform (describe) =" << desc.getPropertySet().propGetInt(kFnOfxImageEffectCanTransform) << std::endl;
         }
     }
+    // ask the host to render all planes
+    desc.setPassThroughForNotProcessedPlanes(ePassThroughLevelRenderAllRequestedPlanes);
 #endif
 }
 
@@ -1179,6 +1181,9 @@ OFX::Transform3x3DescribeInContextBegin(OFX::ImageEffectDescriptor &desc,
     srcClip->addSupportedComponent(ePixelComponentRGBA);
     srcClip->addSupportedComponent(ePixelComponentRGB);
     srcClip->addSupportedComponent(ePixelComponentAlpha);
+#ifdef OFX_EXTENSIONS_NATRON
+    srcClip->addSupportedComponent(ePixelComponentXY);
+#endif
     srcClip->setTemporalClipAccess(false);
     srcClip->setSupportsTiles(kSupportsTiles);
     srcClip->setIsMask(false);
@@ -1204,6 +1209,9 @@ OFX::Transform3x3DescribeInContextBegin(OFX::ImageEffectDescriptor &desc,
     dstClip->addSupportedComponent(ePixelComponentRGBA);
     dstClip->addSupportedComponent(ePixelComponentRGB);
     dstClip->addSupportedComponent(ePixelComponentAlpha);
+#ifdef OFX_EXTENSIONS_NATRON
+    dstClip->addSupportedComponent(ePixelComponentXY);
+#endif
     dstClip->setSupportsTiles(kSupportsTiles);
 
 
