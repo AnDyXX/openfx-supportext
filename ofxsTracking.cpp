@@ -249,7 +249,7 @@ OFX::genericTrackerDescribePointParameters(OFX::ImageEffectDescriptor &desc,
         }
     }
     
-<<<<<<< HEAD
+
     // center
     {
         OFX::Double2DParamDescriptor* param = desc.defineDouble2DParam(kParamTrackingCenterPoint);
@@ -358,8 +358,7 @@ OFX::genericTrackerDescribePointParameters(OFX::ImageEffectDescriptor &desc,
             page->addChild(*param);
         }
     }
-=======
->>>>>>> c9b82b9d2112df677c51a8276b79e538c3eaac57
+
     
     // backward
     {
